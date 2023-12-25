@@ -18,14 +18,14 @@ class MapController {
             })
 
         })
-
     }
     store(req, res, next) {
         //   console.log(req.body)
         const namearea = req.body.namearea
         const coordinates = req.body.coordinates
-
+        const type = req.body.type
         Map.addMap({
+            type: type,
             namearea: namearea,
             coordinates: coordinates
         }, (err, results) => {
@@ -33,7 +33,7 @@ class MapController {
                 console.log('lỗi truy vấn', err)
             }
             else {
-                console.log('Thêm bản ghi thành công' ,results)
+                console.log('Thêm bản ghi thành công', results)
             }
         })
         // const map = new Map(req.body)

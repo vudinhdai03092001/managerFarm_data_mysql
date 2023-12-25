@@ -1,5 +1,8 @@
 {{> header}}
 {{>navbar}}
+<style>
+  
+</style>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Tổng quan </h1>
@@ -8,6 +11,8 @@
                 <li class="breadcrumb-item"><a href="home.hbs">Home</a></li>
                 <li class="breadcrumb-item active">Tổng quan</li>
             </ol>
+            <input type="text" id="searchInput" oninput="searchCitys()">
+            <ul id="CityList"></ul>
         </nav>
     </div><!-- End Page Title -->
 
@@ -20,7 +25,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">Nhiệt độ <span>/Hôm nay</span></h5>
+                                <h5 class="card-title" id="chartTemperature"> </h5>
 
                                 <!-- Line Chart -->
                                 <canvas id="myChart" style="width:100%;"></canvas>
@@ -34,7 +39,8 @@
                     <div class="col-12">
                         <div class="card recent-sales overflow-auto">
                             <div class="card-body">
-                                <h5 class="card-title">Độ ẩm <span>| Hôm nay</span></h5>
+                                <h5 class="card-title">Độ ẩm</h5>
+                                <canvas id="HumidtyChart" style="width:100%;"></canvas>
                             </div>
 
                         </div>
@@ -54,83 +60,57 @@
             </div><!-- End Left side columns -->
             <!-- Right side columns -->
             <div class="col-lg-4">
-
                 <!-- Recent Activity -->
                 <div class="card">
-
                     <div class="card-body">
-                        <h5 class="card-title">Cơ cấu cây trồng</h5>
-                        <p>1500 cây/ha</p>
+                        <h5 class="card-title" id="weatherDay">Thời tiết trong ngày</h5>
+                        <section>
+                            <div class="row d-flex justify-content-center align-items-center ">
+                                <div class="col-md-12 col-lg-12">
+
+                                    <div class="card  text-white">
+                                        <div class="bg-image">
+                                            {{!-- <img
+                                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-weather/draw1.webp"
+                                                class="card-img" alt="weather" style="height: 100%;" /> --}}
+                                            <div id="image-container"></div>
+                                            <div class="mask" style="background-color: rgba(190, 216, 232, .5);">
+                                            </div>
+                                        </div>
+                                        <div class="card-img-overlay text-dark ">
+                                            <h4 class="mb-0" id="city"></h4>
+                                            <p class="display-2 my-2" id="temperature"></p>
+                                            <p class="mb-2">Độ ẩm: <strong id="humidity"></strong></p>
+                                           <p class="mb-2">Tốc độ gió: <strong id="windSpeed"></strong></p>
+                                         
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </section>
                     </div>
-                </div><!-- End Recent Activity -->
-
-                <!-- Budget Report -->
+                </div>
                 <div class="card">
-
                     <div class="card-body pb-0">
                         <h5 class="card-title">Cánh đồng </h5>
-
                     </div>
-                </div><!-- End Budget Report -->
-
-                <!-- Website Traffic -->
+                </div>
                 <div class="card">
-
                     <div class="card-body pb-0">
                         <h5 class="card-title">Công việc </h5>
                     </div>
-                </div><!-- End Website Traffic -->
-
-                <!-- News & Updates Traffic -->
-
-
-            </div><!-- End Right side columns -->
-
+                </div>
+            </div>
         </div>
     </section>
-
-</main><!-- End #main -->
+</main>
 {{> footer}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/js/temperature.js"></script>
 
 <script>
-    //BIỂU ĐỒ LOẠI CÂY
-    var xValues1 = ["Italy", "France", "Spain", "USA", "Argentina"];
-    var yValues1 = [55, 49, 44, 24, 15];
-    var barColors = ["red", "green", "blue", "orange", "brown"];
 
-    new Chart("loaicay", {
-        type: "bar",
-        data: {
-            labels: xValues1,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues1
-            }]
-        },
-        options: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "World Wine Production 2018"
-            }
-        }
-    });
-    //BIỂU ĐỒ NHIỆT ĐỘ
-    const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
-
-    new Chart("myChart", {
-        type: "line",
-        data: {
-            labels: xValues,
-            datasets: [{
-                data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
-                borderColor: "red",
-                fill: false
-            }]
-        },
-        options: {
-            legend: { display: false }
-        }
-    });
 </script>

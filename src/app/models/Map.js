@@ -15,8 +15,8 @@ const MapModel = {
     },
 
     addMap: (Map, callback) => {
-        const query = 'INSERT INTO maps (namearea, coordinates) VALUES (?,?)';
-        const values = [Map.namearea, Map.coordinates];
+        const query = 'INSERT INTO maps (namearea, coordinates,type) VALUES (?,?,?)';
+        const values = [Map.namearea, Map.coordinates, Map.type];
         connection.query(query, values, callback);
     },
 }

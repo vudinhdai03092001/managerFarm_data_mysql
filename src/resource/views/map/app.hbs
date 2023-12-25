@@ -117,13 +117,16 @@
         var drawControl = new L.Control.Draw({
             draw: {
                 circlemarker: false,
-                marker: true,
-                // polyline: false,
+                circle: false,
+                // marker: true,
+                polyline: false,
                 // polygon: false,
                 rectangle: false
             },
             edit: {
                 featureGroup: drawnItems,
+                remove: false,
+                edit: false
             },
         });
         map.addControl(drawControl);
@@ -131,60 +134,61 @@
         map.on('draw:created', function (event) {
             var type = event.layerType;
             var layer = event.layer;
-            if (layer instanceof L.Marker) {
-                // Lấy tọa độ của điểm khi nó được vẽ
-                var latlng = layer.getLatLng();
-                // Xử lý tọa độ theo ý muốn của bạn
-                console.log('Tọa độ của điểm:', latlng);
-            }
-            else if (type === 'polygon') {
-                // Xử lý khi vẽ vùng
-                polygon = layer.toGeoJSON();
-            }
             drawnItems.addLayer(layer);
-            //lấy tọa độ khi vẽ poligon
-            var localpolygon = polygon.geometry.coordinates[0];
-
-            //chuyển tọa độ từ object sang string
-            var parseLocalpolygon = JSON.stringify(localpolygon)
-            btnsave.onclick = function () {
-                input = document.getElementById('namearea').value
-                if (input === '') {
-                    message.innerHTML = "vui lòng nhập vùng trồng !"
-                }
-                else {
-                    $.ajax({
-                        url: '/map/store',
-                        type: 'POST',
-                        data: {
-                            namearea: input,
-                            coordinates: parseLocalpolygon
-                        }
-                    })
-                    //bắt dự kiên load trang
-                    location.reload();
+            var type = layer instanceof L.Marker ? 'Point' : 'Polygon';
+            var localpolygon = layer instanceof L.Marker ? layer.toGeoJSON().geometry.coordinates : layer.toGeoJSON().geometry.coordinates[0]
+            //  lưu tọa độ vào mảng
+            // var arrayPolygon = layer instanceof L.Marker ? localpolygon : arrayPolygon.push(localpolygon)
+            if (layer instanceof L.Marker) {
+                //chuyển tọa độ từ object sang string
+                var parseLocalpolygon = JSON.stringify(localpolygon)
+                btnsave.onclick = function () {
+                    input = document.getElementById('namearea').value
+                    if (input === '') {
+                        message.innerHTML = "vui lòng nhập vùng trồng !"
+                    }
+                    else {
+                        $.ajax({
+                            url: '/map/store',
+                            type: 'POST',
+                            data: {
+                                type: type,
+                                namearea: `Điểm đánh dấu: ${input}`,
+                                coordinates: parseLocalpolygon
+                            }
+                        })
+                        //bắt dự kiên load trang
+                        location.reload();
+                    }
                 }
             }
-        });
+            else {
+                var arrayPolygon = []
+                arrayPolygon.push(localpolygon)
+                //chuyển tọa độ từ object sang string
+                var parseLocalpolygon = JSON.stringify(arrayPolygon)
+                btnsave.onclick = function () {
+                    input = document.getElementById('namearea').value
+                    if (input === '') {
+                        message.innerHTML = "vui lòng nhập vùng trồng !"
+                    }
+                    else {
+                        $.ajax({
+                            url: '/map/store',
+                            type: 'POST',
+                            data: {
+                                type: type,
+                                namearea: `Khu vực: ${input}`,
+                                coordinates: parseLocalpolygon
+                            }
+                        })
+                        //bắt dự kiên load trang
+                        location.reload();
+                    }
+                }
+            }
 
-
-        // if (navigator.geolocation) {
-        //      navigator.geolocation.getCurrentPosition(getPosition)
-        //  } else {
-        //       console.log("Your browser doesn't support geolocation feature!")
-        //   }
-        //  var marker, circle;
-
-        //   function getPosition(position) {
-        ///      var lat = position.coords.latitude
-        //      var long = position.coords.longitude
-        //      var accuracy = position.coords.accuracy
-        //     marker = L.marker([lat, long]).addTo(map)
-        //      console.log(lat, long, accuracy)
-        //  }
-
-        //Add scale
-        //  var scale = L.control.scale({ position: 'bottomright' }).addTo(map);
+        })
 
         //hàm load dữ liệu 
         function loadData() {
@@ -195,15 +199,14 @@
                 var list = data.data.map((toado) => {
                     //chuyển dữ liệu về dạng object
                     var par = JSON.parse(toado.coordinates)
-                    arr = []
-                    arr.push(par)
+                    var namearea = toado.namearea
+                    var type = toado.type
                     return {
                         type: "Feature",
-                        properties: { "name": "Sample GeoJSON Feature" },
+                        properties: { "name": namearea },
                         geometry: {
-                            type: "Polygon",
-                            coordinates: arr,
-                            type: "LineString"
+                            type: type,
+                            coordinates: par,
                         },
                     }
                 }
@@ -217,7 +220,7 @@
                 L.geoJSON(stateData, {
                     onEachFeature: function (feature, layer) {
                         // Bind Popup với nội dung từ thuộc tính "name" của đối tượng GeoJSON
-                        console.log(feature.properties.name)
+                        //   console.log(feature.properties.name)
                         layer.bindPopup('<b>' + feature.properties.name + '</b>');
                     }
                 }).addTo(map);
@@ -227,5 +230,6 @@
         loadData()
         // get data từ localstorage sau đó gán stateData
     });
+
 
 </script>

@@ -100,3 +100,24 @@ td:hover {
 #message {
     color: red;
 }
+#CityList {
+    list-style-type: none;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+.CityItem {
+    margin-bottom: 10px;
+    padding: 10px;
+
+}
+
+#image-container img {
+    width: 100%;
+    height: auto;
+    height: 250px;
+    /* Kích thước tối đa chiều cao của hình ảnh */
+}

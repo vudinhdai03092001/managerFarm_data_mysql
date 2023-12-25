@@ -5,6 +5,11 @@ const WorkModel = {
         const query = 'SELECT * FROM works WHERE id_user = ? ';
         connection.query(query, IdUser, callback);
     },
+    // lấy sản phẩm theo id 
+    getWorkById: (Id, callback) => {
+        const query = 'SELECT * FROM works WHERE _id';
+        connection.query(query, Id, callback);
+    },
 
     updateWork: (WorkId, Work, callback) => {
         const query = 'UPDATE works SET title=?, start=? ,end =? WHERE _id = ?';
