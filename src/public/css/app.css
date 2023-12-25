@@ -80,8 +80,12 @@ td:hover {
   padding: 0;
   position: absolute;
   z-index: 1;
-  background-color: aliceblue;
-  cursor: pointer; }
+  cursor: pointer;
+  margin-top: 10px;
+  background-color: #fbfbfb;
+  border-radius: 5px;
+  width: 10%;
+  color: #056cbd; }
 
 .CityItem {
   margin-bottom: 10px;
@@ -92,3 +96,7 @@ td:hover {
   height: auto;
   height: 250px;
   /* Kích thước tối đa chiều cao của hình ảnh */ }
+
+.leaflet-div-icon {
+  background-color: #5f91ff !important;
+  border-radius: 50%; }

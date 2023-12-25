@@ -1,5 +1,10 @@
 const connection = require('../../config/db/index')
 const AccountModel = {
+    ///lấy ra các tài khoản
+    getAllUser: (callback) => {
+        const query = 'SELECT * FROM account ';
+        connection.query(query, callback);
+    },
     //lấy thông tin dựa vào tên và email
     getAccountByNameorEmail: (UserName, UserEmail, callback) => {
         const query = 'SELECT * FROM account WHERE username = ? OR email = ?';
@@ -43,8 +48,8 @@ const AccountModel = {
         const values = [Account.password, email];
         connection.query(query, values, callback);
     },
-   
-    
+
+
 };
 
 // Export model để sử dụng ở nơi khác trong ứng dụng

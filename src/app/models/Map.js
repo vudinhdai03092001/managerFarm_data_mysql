@@ -15,9 +15,13 @@ const MapModel = {
     },
 
     addMap: (Map, callback) => {
-        const query = 'INSERT INTO maps (namearea, coordinates,type) VALUES (?,?,?)';
-        const values = [Map.namearea, Map.coordinates, Map.type];
+        const query = 'INSERT INTO maps (namearea, coordinates,type,areaMeter) VALUES (?,?,?,?)';
+        const values = [Map.namearea, Map.coordinates, Map.type, Map.areaMeter];
         connection.query(query, values, callback);
+    },
+    deleteMap: (MapId, callback) => {
+        const query = 'DELETE FROM maps WHERE _id = ?';
+        connection.query(query, [MapId], callback);
     },
 }
 // Export model để sử dụng ở nơi khác trong ứng dụng

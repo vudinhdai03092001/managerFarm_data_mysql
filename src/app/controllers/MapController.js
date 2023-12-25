@@ -24,7 +24,9 @@ class MapController {
         const namearea = req.body.namearea
         const coordinates = req.body.coordinates
         const type = req.body.type
+        const area = req.body.area
         Map.addMap({
+            areaMeter: area,
             type: type,
             namearea: namearea,
             coordinates: coordinates
@@ -104,6 +106,29 @@ class MapController {
             }
             else {
                 return res.json({ data: data })
+            }
+        })
+    }
+    delete(req, res, next) {
+        const Id_map = req.params.id
+        Map.deleteMap(Id_map, (err, data) => {
+            if (err) {
+                console.log('Lỗi truy vấn', err)
+                return
+            }
+            else {
+                res.redirect('back')
+            }
+        })
+    }
+    edit(req, res, next) {
+        const Id_map = req.params.id
+        Map.getWorkById(Id_map, (err, map) => {
+            if (err) {               
+                console.log('lỗi truy vấn', err)
+            }
+            else {
+                res.render('calendar/edit', { map: map[0] })
             }
         })
     }

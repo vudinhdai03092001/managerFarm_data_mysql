@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const UserController = require('../app/controllers/UserController')
+
+
+
 //render login
 router.get('/login', UserController.index)
 
@@ -38,4 +41,6 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token')
     res.redirect('/login')
 })
+//get all user 
+router.get('/',UserController.getAllUser)
 module.exports = router

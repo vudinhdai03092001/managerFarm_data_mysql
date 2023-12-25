@@ -1,8 +1,17 @@
 const Account = require('../models/Account')
 var jwt = require('jsonwebtoken');
-
-
 class UserController {
+    getAllUser(req, res) {
+        Account.getAllUser((err, data) => {
+            if (err) {
+                res.status(500).json({ error: 'Internal Server Error' });
+                return;
+            } else {
+                res.render('user/store', { data })
+            }
+
+        })
+    }
     index(req, res) {
         res.render('user/login')
     }
@@ -137,7 +146,7 @@ class UserController {
                             return res.render('user/forgotPassword', { message: "check email " })
                         })
                 } else {
-                    return res.render('user/forgotPassword', { done: false ,message:"Email này chưa được đăng ký"})
+                    return res.render('user/forgotPassword', { done: false, message: "Email này chưa được đăng ký" })
                 }
 
             }
@@ -165,7 +174,7 @@ class UserController {
                 res.status(500).json({ error: 'Internal Server Error' });
                 return;
             }
-            else {               
+            else {
                 if (results.affectedRows === 0) {
                     res.json({ message: "Link của bạn hết hiệu lực" })
                 } else {

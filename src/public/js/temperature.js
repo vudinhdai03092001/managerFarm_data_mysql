@@ -152,16 +152,9 @@ const HumidtyChart = new Chart(humidity, {
     },
 });
 
+//load dữ liệu từ local 
 const getData = JSON.parse(localStorage.getItem('myArray'))
-
-if (getData.length = 0) {
-    console.log(getData)
-    getCityvalue('Hà Nội', 'hanoi')
-}
-else if (getData.length = 1) {
-    console.log(getData[0])
-    getCityvalue(getData[0].CityName, getData[0].Cityvalue)
-}
+getCityvalue(getData[0].CityName, getData[0].Cityvalue)
 
 
 function getCityvalue(CityName, Cityvalue) {
@@ -169,7 +162,6 @@ function getCityvalue(CityName, Cityvalue) {
     const ArrayData = [{
         Cityvalue: Cityvalue,
         CityName: CityName,
-
     }]
     localStorage.setItem('myArray', JSON.stringify(ArrayData));
     const getData = JSON.parse(localStorage.getItem('myArray'))
@@ -255,7 +247,7 @@ function getCityvalue(CityName, Cityvalue) {
                 imageContainer.innerHTML = '';
                 const defaultImageElement = document.createElement('img');
                 // Thay đổi đường dẫn tới ảnh mặc định của bạn
-                defaultImageElement.src = 'default_weather_image.jpg';
+                defaultImageElement.src = '/img/weather.jpg';
                 imageContainer.appendChild(defaultImageElement);
             }
 
